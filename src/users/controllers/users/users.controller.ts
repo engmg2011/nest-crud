@@ -7,7 +7,7 @@ import {AuthService} from "../../services/auth/auth.service";
 
 @Controller('users')
 export class UsersController {
-    constructor(private userService: UsersService, private authService: AuthService) {
+    /*constructor(private userService: UsersService, private authService: AuthService) {
     }
 
     @Get()
@@ -35,5 +35,5 @@ export class UsersController {
     @Post('login')
     loginUser(@Body() loginUserDto: LoginUserDto){
         return this.authService.login(loginUserDto);
-    }
+    }*/
 }

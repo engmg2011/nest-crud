@@ -8,6 +8,19 @@ import {Hash} from "../../../utils/Hash";
 @Injectable()
 export class UsersService {
 
+    private readonly users = [
+        {
+            userId: 1,
+            username: 'john',
+            password: 'changeme',
+        },
+        {
+            userId: 2,
+            username: 'maria',
+            password: 'guess',
+        },
+    ];
+
     constructor(@InjectRepository(User) private userRepository: Repository<User>) {
     }
 
@@ -15,8 +28,10 @@ export class UsersService {
         return this.userRepository.find();
     }
 
-    async findOne(params): Promise<User> {
-        return await this.userRepository.findOne({where: params});
+    async findOne(username): Promise<any> {
+
+        return this.users.find(user => user.username === username);
+        // return await this.userRepository.findOne({where: params});
     }
 
     createUser(user: CreateUserParams) {
