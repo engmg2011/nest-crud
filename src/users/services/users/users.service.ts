@@ -20,6 +20,9 @@ export class UsersService {
     }
 
     async createUser(user: CreateUserParams) {
+        const oldRegistered =  await this.userRepository.find({where:{email: user.email}});
+        if(oldRegistered.length)
+            return {error: true, message: 'User with the same email exists'};
         user.password = Hash.make(user.password)
         const data = this.userRepository.create(user);
         const {password, ...userData } = await this.userRepository.save(data);
