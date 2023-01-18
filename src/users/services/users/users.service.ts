@@ -20,6 +20,7 @@ export class UsersService {
     }
 
     async createUser(user: CreateUserParams) {
+        // TODO:: Create app exception handler and throw exceptions to make only one error structured message
         const oldRegistered =  await this.userRepository.find({where:{email: user.email}});
         if(oldRegistered.length)
             return {error: true, message: 'User with the same email exists'};
@@ -32,6 +33,12 @@ export class UsersService {
     async updateUser(id: number, updateUserDetails: UpdateUserParams) {
         if (updateUserDetails.password)
             updateUserDetails.password = Hash.make(updateUserDetails.password);
+        if (updateUserDetails.email) {
+            const oldRegistered = await this.userRepository.find({where: {email: updateUserDetails.email}});
+            if (oldRegistered.length)
+                return {error: true, message: 'User with the same email exists'};
+        }
+
         await this.userRepository.update(id, updateUserDetails);
         return this.userRepository.findBy({id})
     }

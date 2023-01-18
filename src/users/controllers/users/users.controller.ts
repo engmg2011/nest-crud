@@ -26,7 +26,8 @@ export class UsersController {
     updateUser(
         @Param('id', ParseIntPipe) id: number,
         @Body() updateUserDto: UpdateUserDto){
-        return this.userService.updateUser(id, updateUserDto);
+        const {confirmPassword, ...data} = updateUserDto;
+        return this.userService.updateUser(id, data);
     }
 
     @UseGuards(JwtAuthGuard)
