@@ -1,15 +1,16 @@
-import {Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards} from '@nestjs/common';
 import {CreateUserDto} from "../../dtos/CreateUser.dto";
 import {UsersService} from "../../services/users/users.service";
 import {UpdateUserDto} from "../../dtos/UpdateUser.dto";
-import {LoginUserDto} from "../../dtos/LoginUser.dto";
-import {AuthService} from "../../services/auth/auth.service";
+import {JwtAuthGuard} from "../../../auth/jwt-auth.guard";
 
+// @UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
-    /*constructor(private userService: UsersService, private authService: AuthService) {
+    constructor(private userService: UsersService ) {
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get()
     getUsers(){
         return this.userService.findUsers();
@@ -20,6 +21,7 @@ export class UsersController {
         return this.userService.createUser(createUserDto);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Put(':id')
     updateUser(
         @Param('id', ParseIntPipe) id: number,
@@ -27,13 +29,10 @@ export class UsersController {
         return this.userService.updateUser(id, updateUserDto);
     }
 
-    @Delete()
-    deleteUser(@Body() id: number){
+    @UseGuards(JwtAuthGuard)
+    @Delete(':id')
+    deleteUser(@Param('id',ParseIntPipe) id: number){
         return this.userService.deleteUser(id);
     }
 
-    @Post('login')
-    loginUser(@Body() loginUserDto: LoginUserDto){
-        return this.authService.login(loginUserDto);
-    }*/
 }
