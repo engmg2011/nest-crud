@@ -3,7 +3,6 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {User} from "../../entities/user.entity";
 import {Repository} from "typeorm";
 import {CreateUserParams, UpdateUserParams} from "../../../utils/types";
-import {createHash} from 'node:crypto'
 import {Hash} from "../../../utils/Hash";
 
 @Injectable()
@@ -14,6 +13,10 @@ export class UsersService {
 
     findUsers() {
         return this.userRepository.find();
+    }
+
+    async findOne(params): Promise<User> {
+        return await this.userRepository.findOne({where: params});
     }
 
     createUser(user: CreateUserParams) {
@@ -32,4 +35,5 @@ export class UsersService {
     deleteUser(id: number) {
         return this.userRepository.delete({id});
     }
+
 }

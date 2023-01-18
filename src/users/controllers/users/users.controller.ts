@@ -2,10 +2,12 @@ import {Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put} fr
 import {CreateUserDto} from "../../dtos/CreateUser.dto";
 import {UsersService} from "../../services/users/users.service";
 import {UpdateUserDto} from "../../dtos/UpdateUser.dto";
+import {LoginUserDto} from "../../dtos/LoginUser.dto";
+import {AuthService} from "../../services/auth/auth.service";
 
 @Controller('users')
 export class UsersController {
-    constructor(private userService: UsersService) {
+    constructor(private userService: UsersService, private authService: AuthService) {
     }
 
     @Get()
@@ -28,5 +30,10 @@ export class UsersController {
     @Delete()
     deleteUser(@Body() id: number){
         return this.userService.deleteUser(id);
+    }
+
+    @Post('login')
+    loginUser(@Body() loginUserDto: LoginUserDto){
+        return this.authService.login(loginUserDto);
     }
 }

@@ -10,3 +10,7 @@ export type UpdateUserParams = {
     email?: string,
     confirmPassword?: string
 }
+export type LoginDataParams = {
+    email: string,
+    password: string
+}
